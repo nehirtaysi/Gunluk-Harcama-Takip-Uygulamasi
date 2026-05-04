@@ -1,0 +1,72 @@
+<ion-header [translucent]="true">
+  <ion-toolbar >
+  <ion-title class="ion-text-center" style="font-size: 15px;">Günlük Harcama Takip Uygulaması</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  
+  <ion-card>
+  <ion-card-header>
+    <ion-card-title>Yeni Harcama Ekle</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+     <ion-item>
+        <ion-label position="stacked">Harcama Adı</ion-label>
+        <ion-input type="text" placeholder="Örn: Market" [(ngModel)]="HarcamaAdi"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Tutar (TL)</ion-label>
+        <ion-input type="number" placeholder="Örn:375" [(ngModel)]="HarcamaTutari"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Kategori</ion-label>
+        <ion-select placeholder="Seçiniz" [(ngModel)]="HarcamaKategorisi">
+          <ion-select-option value="Gıda">Gıda</ion-select-option>
+          <ion-select-option value="Ulaşım">Ulaşım</ion-select-option>
+          <ion-select-option value="Eğlence">Eğlence</ion-select-option>
+          <ion-select-option value="Diğer">Diğer</ion-select-option>
+       </ion-select>
+      </ion-item>
+        <ion-button expand="block" class="ion-margin-top" (click)="HarcamaEkle()">Ekle</ion-button>
+  </ion-card-content>
+</ion-card>
+<div *ngIf="Harcamalar.length===0" class="ion-padding ion-text-center" style="margin-top: 50px;" >
+  <ion-icon name="cart-outline" style="font-size: 64px; color: #ccc;"></ion-icon>
+  <p style="color: #999;">Henüz bir harcama kaydı yok.</p>
+</div>
+<ion-list>
+  <ion-item-sliding *ngFor="let h of Harcamalar">
+    <ion-item>
+      <ion-label>
+        <h3>{{h.Ad}}</h3>
+        <p>{{h.Kategori}} <ion-text color="medium">{{h.Tarih}} {{h.Saat}}</ion-text>
+
+        </p>
+      </ion-label>
+      <ion-note slot="end">
+        <ion-badge [color]="KategoriRenk(h.Kategori)" 
+        style="font-size: 15px;">
+        {{h.Tutar}}₺
+        </ion-badge>
+      </ion-note>
+    </ion-item>
+
+    <ion-item-options side="end">
+      <ion-item-option color="danger" (click)="Sil(h)">
+        <ion-icon slot="start" name="trash"></ion-icon>
+        Sil
+        </ion-item-option>
+    </ion-item-options>
+  </ion-item-sliding>
+</ion-list>
+<div class="ion-padding ion-text-center" *ngIf="Harcamalar.length > 0">
+  <ion-text color="dark">
+  <h2>Toplam: <strong>{{Toplam}}₺</strong></h2>
+  </ion-text>
+</div>
+
+</ion-content>
